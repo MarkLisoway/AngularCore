@@ -1,4 +1,4 @@
-namespace WebApp.Configurations
+namespace Application.Configurations
 {
     // Properties are populated through the configuration binder
     // ReSharper disable once UnusedAutoPropertyAccessor.Global

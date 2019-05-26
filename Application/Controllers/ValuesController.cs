@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Configurations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApp.Configurations;
 
-namespace WebApp.Controllers
+namespace Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
