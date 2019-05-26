@@ -82,7 +82,7 @@ namespace WebApp
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer("start-dev");
+                    spa.UseAngularCliServer("start");
                 }
             });
         }
