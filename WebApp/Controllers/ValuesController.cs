@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using WebApp.Configurations;
 
 namespace WebApp.Controllers
@@ -7,9 +8,9 @@ namespace WebApp.Controllers
     [Route("api/[controller]/[action]")]
     public class ValuesController : ControllerBase
     {
-        private readonly SpaConfig _spaConfig;
+        private readonly IOptions<SpaConfig> _spaConfig;
 
-        public ValuesController(SpaConfig spaConfig)
+        public ValuesController(IOptions<SpaConfig> spaConfig)
         {
             _spaConfig = spaConfig;
         }
@@ -17,7 +18,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public JsonResult Name()
         {
-            return new JsonResult(_spaConfig);
+            return new JsonResult(_spaConfig.Value);
         }
     }
 }

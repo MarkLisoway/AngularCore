@@ -21,8 +21,10 @@ namespace WebApp
 
         private ServiceProvider BindConfigurations(IServiceCollection services)
         {
-            var spaConfigLocation = Configuration.GetSection("SPA");
-            services.Configure<SpaConfig>(spaConfigLocation);
+            services.AddOptions();
+            
+            var spaConfigSection = Configuration.GetSection("SPA");
+            services.Configure<SpaConfig>(spaConfigSection);
 
             return services.BuildServiceProvider();
         }
