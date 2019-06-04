@@ -1,8 +1,9 @@
-using System.Linq;
+using System.Runtime.CompilerServices;
 using DataAccess.ModelConfigurations;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
+[assembly: InternalsVisibleTo("DataAccess.Test")]
 namespace DataAccess.Context
 {
     public class AngularCoreContext : DbContext
@@ -17,7 +18,6 @@ namespace DataAccess.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            Users.Select()
         }
     }
 }
