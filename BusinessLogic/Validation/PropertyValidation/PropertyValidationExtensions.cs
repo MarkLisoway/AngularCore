@@ -8,7 +8,7 @@ namespace BusinessLogic.Validation.PropertyValidation
         internal static PropertyValidations<T> BeginValidation<T>(this T property,
             string prefix,
             string alias,
-            ICollection<IValidationError> errors)
+            ICollection<IPropertyValidationError> errors)
         {
             return new PropertyValidations<T>(property, prefix, alias, errors);
         }

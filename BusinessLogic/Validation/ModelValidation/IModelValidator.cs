@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using BusinessLogic.Validation.PropertyValidation;
 
-namespace BusinessLogic.Validation
+namespace BusinessLogic.Validation.ModelValidation
 {
     /// <summary>
     ///     Validation interface for any object before the object's request gets
@@ -45,7 +46,7 @@ namespace BusinessLogic.Validation
         /// </summary>
         /// <returns>Any errors that were found.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown when called before <see cref="Validate" />.</exception>
-        IReadOnlyList<IValidationError> GetErrors();
+        IReadOnlyList<IPropertyValidationError> GetErrors();
     }
 
     /// <summary>

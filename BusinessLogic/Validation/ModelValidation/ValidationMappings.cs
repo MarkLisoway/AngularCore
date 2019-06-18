@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using BusinessLogic.Validation.Validators;
+using BusinessLogic.Validation.ModelValidation.Validators;
 
-namespace BusinessLogic.Validation
+namespace BusinessLogic.Validation.ModelValidation
 {
     internal static class ValidationMappings
     {

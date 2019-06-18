@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BusinessLogic.Validation.ModelValidation;
 
 namespace BusinessLogic.Validation.PropertyValidation
 {
@@ -14,7 +15,7 @@ namespace BusinessLogic.Validation.PropertyValidation
         /// </param>
         /// <param name="alias">Alias of the property. Combined with the prefix to create a unique identifier for the property.</param>
         /// <param name="errors">Reference to a collection of errors in which the properties errors will be stored./></param>
-        internal PropertyValidations(T property, string prefix, string alias, ICollection<IValidationError> errors)
+        internal PropertyValidations(T property, string prefix, string alias, ICollection<IPropertyValidationError> errors)
         {
             Property = property;
             Alias = alias;
@@ -31,12 +32,12 @@ namespace BusinessLogic.Validation.PropertyValidation
         /// <summary>
         ///     Reference to the <see cref="ICollection{T}" /> of errors in the <see cref="ModelValidatorBase{TModel}" />.
         /// </summary>
-        private ICollection<IValidationError> Errors { get; }
+        private ICollection<IPropertyValidationError> Errors { get; }
 
 
         internal void AddError(string error)
         {
-            Errors.Add(new ValidationError(Identifier, error));
+            Errors.Add(new PropertyValidationError(Identifier, error));
         }
     }
 }

@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BusinessLogic.Validation;
+using BusinessLogic.Validation.ModelValidation;
+using BusinessLogic.Validation.PropertyValidation;
 using DataAccess.Context;
 
 namespace BusinessLogic
@@ -78,7 +79,7 @@ namespace BusinessLogic
         }
 
         private static ExecutionResult<TResult> CreateFailedExecutionResult<TResult>(
-            IReadOnlyList<IValidationError> errors)
+            IReadOnlyList<IPropertyValidationError> errors)
         {
             return new ExecutionResult<TResult>
             {

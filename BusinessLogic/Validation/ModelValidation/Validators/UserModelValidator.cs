@@ -1,7 +1,7 @@
 using BusinessLogic.Validation.PropertyValidation;
 using DataAccess.Models;
 
-namespace BusinessLogic.Validation.Validators
+namespace BusinessLogic.Validation.ModelValidation.Validators
 {
     public sealed class UserModelValidator : ModelValidatorBase<User>
     {

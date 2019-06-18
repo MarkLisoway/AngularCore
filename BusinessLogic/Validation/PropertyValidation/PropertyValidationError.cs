@@ -1,8 +1,8 @@
-namespace BusinessLogic.Validation
+namespace BusinessLogic.Validation.PropertyValidation
 {
-    public class ValidationError : IValidationError
+    public class PropertyValidationError : IPropertyValidationError
     {
-        internal ValidationError(string identifier, string error)
+        internal PropertyValidationError(string identifier, string error)
         {
             PropertyIdentifier = identifier;
             Error = error;

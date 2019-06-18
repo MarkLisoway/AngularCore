@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using BusinessLogic.Validation.PropertyValidation;
 
-namespace BusinessLogic.Validation
+namespace BusinessLogic.Validation.ModelValidation
 {
     public abstract class ModelValidatorBase<TModel> : IModelValidator<TModel>
     {
-        protected readonly ICollection<IValidationError> Errors;
+        protected readonly ICollection<IPropertyValidationError> Errors;
         private bool _hasValidationBeenRun;
 
         protected ModelValidatorBase()
         {
-            Errors = new List<IValidationError>();
+            Errors = new List<IPropertyValidationError>();
             _hasValidationBeenRun = false;
         }
 
@@ -51,7 +52,7 @@ namespace BusinessLogic.Validation
 
         public abstract bool Validate(TModel model);
 
-        public IReadOnlyList<IValidationError> GetErrors()
+        public IReadOnlyList<IPropertyValidationError> GetErrors()
         {
             if (!_hasValidationBeenRun)
                 throw new InvalidOperationException("Must validate before attempting to get any errors.");
