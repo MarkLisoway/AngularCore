@@ -6,7 +6,7 @@ namespace BusinessLogic.Validation.Validators
     public sealed class UserModelValidator : ModelValidatorBase<User>
     {
         private static readonly string _validationPrefix = nameof(User);
-        
+
         public override bool ValidateCreate(User model)
         {
             return FinalizeValidation();

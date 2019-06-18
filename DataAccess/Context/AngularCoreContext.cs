@@ -4,6 +4,7 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
 [assembly: InternalsVisibleTo("DataAccess.Test")]
+
 namespace DataAccess.Context
 {
     public class AngularCoreContext : DbContext

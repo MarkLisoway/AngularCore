@@ -9,7 +9,7 @@ namespace BusinessLogic.Validation
         }
 
         public string PropertyIdentifier { get; }
-        
+
         public string Error { get; }
     }
 }

@@ -27,7 +27,7 @@ namespace BusinessLogic
             var result = _context.Set<TModel>().Add(model);
             return CreateSuccessfulExecutionResult(result.Entity);
         }
-        
+
         public ExecutionResult<IQueryable<TDto>> ExecuteRead<TModel, TDto>(Expression<Func<TModel, TDto>> selector)
             where TModel : class
         {

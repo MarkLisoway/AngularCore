@@ -12,8 +12,8 @@ namespace BusinessLogic.Validation
 
         private class ValidationMappingsBuilder
         {
-            private bool _built;
             private readonly ValidationDictionary _validators = new ValidationDictionary();
+            private bool _built;
 
             internal ValidationMappingsBuilder RegisterValidation<TModel>(Func<IModelValidator<TModel>> factory)
             {
@@ -22,7 +22,7 @@ namespace BusinessLogic.Validation
                         $"{nameof(ValidationMappingsBuilder)} cannot register validations after build.");
 
                 _validators[typeof(TModel)] = factory;
-                
+
                 return this;
             }
 
@@ -35,7 +35,6 @@ namespace BusinessLogic.Validation
 
         internal sealed class ValidationDictionary : Dictionary<Type, Func<IModelValidator>>
         {
-            
         }
     }
 }
