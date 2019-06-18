@@ -25,14 +25,13 @@ namespace BusinessLogic.Validation.ModelValidation.Validators
         public override bool ValidateUpdate(User model)
         {
             model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors)
-                .IfThen(true, validations => validations
-                    .CannotBeNull())
-                .MustBeDefault()
-                .MustBeGreaterThan(12)
                 .CannotBeNull()
-                .MustBeLessThan(30)
-                .MustBeGreaterThanOrEqualTo(12)
-                .MustBeLessThanOrEqualTo(30);
+                .CannotBeDefault()
+                .MustBeGreaterThanOrEqualTo(1);
+
+            model.Name.BeginValidation(ValidationPrefix, nameof(model.Name), Errors)
+                .IfThen(!string.IsNullOrEmpty(model.Name), name => name
+                    .CannotBeDefault());
 
             return FinalizeValidation();
         }
