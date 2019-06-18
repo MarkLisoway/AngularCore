@@ -4,12 +4,12 @@ using System.Collections.Immutable;
 
 namespace BusinessLogic.Validation
 {
-    public abstract class ValidatorBase<TModel> : IValidator<TModel>
+    public abstract class ModelValidatorBase<TModel> : IModelValidator<TModel>
     {
         protected readonly ICollection<IValidationError> Errors;
         private bool _hasValidationBeenRun;
 
-        protected ValidatorBase()
+        protected ModelValidatorBase()
         {
             Errors = new List<IValidationError>();
             _hasValidationBeenRun = false;
@@ -54,7 +54,7 @@ namespace BusinessLogic.Validation
         public IReadOnlyList<IValidationError> GetErrors()
         {
             if (!_hasValidationBeenRun)
-                throw new InvalidOperationException("Must call Validate before attempting to get any errors.");
+                throw new InvalidOperationException("Must validate before attempting to get any errors.");
             return Errors.ToImmutableList();
         }
 

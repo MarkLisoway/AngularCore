@@ -6,7 +6,7 @@ namespace BusinessLogic.Validation
     ///     Validation interface for any object before the object's request gets
     ///     passed to the data layer.
     /// </summary>
-    public interface IValidator
+    public interface IModelValidator
     {
         /// <summary>
         ///     Validates an object for a create operation.
@@ -15,6 +15,7 @@ namespace BusinessLogic.Validation
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool ValidateCreate(object model);
 
+        
         /// <summary>
         ///     Validates an object for an update operation.
         /// </summary>
@@ -22,6 +23,7 @@ namespace BusinessLogic.Validation
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool ValidateUpdate(object model);
 
+        
         /// <summary>
         ///     Validates an object for a delete operation.
         /// </summary>
@@ -29,12 +31,14 @@ namespace BusinessLogic.Validation
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool ValidateDelete(object model);
         
+        
         /// <summary>
         ///     Base validation method. Usually used for generic validation.
         /// </summary>
         /// <param name="model">Object to validate.</param>
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool Validate(object model);
+        
         
         /// <summary>
         ///     Gets an <see cref="IReadOnlyList{T}" /> of any errors that were found.
@@ -48,7 +52,7 @@ namespace BusinessLogic.Validation
     ///     Validation interface for all models before they get passed to the data access layer.
     /// </summary>
     /// <typeparam name="TModel">Type of Database model being validated.</typeparam>
-    public interface IValidator<in TModel> : IValidator
+    public interface IModelValidator<in TModel> : IModelValidator
     {
         /// <summary>
         ///     Validates the given domain model for a create operation.
@@ -57,6 +61,7 @@ namespace BusinessLogic.Validation
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool ValidateCreate(TModel model);
         
+        
         /// <summary>
         ///     Validates the given domain model for an update operation.
         /// </summary>
@@ -64,12 +69,14 @@ namespace BusinessLogic.Validation
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool ValidateUpdate(TModel model);
         
+        
         /// <summary>
         ///     Validates the given domain model for a delete operation.
         /// </summary>
         /// <param name="model">Model to validate.</param>
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool ValidateDelete(TModel model);
+        
         
         /// <summary>
         ///     Validates the given domain model.

@@ -2,13 +2,14 @@ namespace BusinessLogic.Validation
 {
     public class ValidationError : IValidationError
     {
-        internal ValidationError(string alias, string error)
+        internal ValidationError(string identifier, string error)
         {
-            PropertyName = alias;
+            PropertyIdentifier = identifier;
             Error = error;
         }
 
-        public string PropertyName { get; }
+        public string PropertyIdentifier { get; }
+        
         public string Error { get; }
     }
 }

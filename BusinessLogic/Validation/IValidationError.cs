@@ -2,7 +2,8 @@ namespace BusinessLogic.Validation
 {
     public interface IValidationError
     {
-        string PropertyName { get; }
+        string PropertyIdentifier { get; }
+        
         string Error { get; }
     }
 }

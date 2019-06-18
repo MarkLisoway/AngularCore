@@ -59,7 +59,7 @@ namespace BusinessLogic
             return CreateSuccessfulExecutionResult(result.Entity);
         }
 
-        private static IValidator GetValidator<TModel>()
+        private static IModelValidator GetValidator<TModel>()
         {
             var validatorFactory = ValidationMappings.Mappings[typeof(TModel)];
             if (validatorFactory == null) throw new Exception("Must have registered validation mapping.");

@@ -7,7 +7,7 @@ namespace BusinessLogic.Validation
     internal static class ValidationMappings
     {
         internal static readonly ValidationDictionary Mappings = new ValidationMappingsBuilder()
-            .RegisterValidation(() => new UserValidator())
+            .RegisterValidation(() => new UserModelValidator())
             .Build();
 
         private class ValidationMappingsBuilder
@@ -15,7 +15,7 @@ namespace BusinessLogic.Validation
             private bool _built;
             private readonly ValidationDictionary _validators = new ValidationDictionary();
 
-            internal ValidationMappingsBuilder RegisterValidation<TModel>(Func<IValidator<TModel>> factory)
+            internal ValidationMappingsBuilder RegisterValidation<TModel>(Func<IModelValidator<TModel>> factory)
             {
                 if (_built)
                     throw new InvalidOperationException(
@@ -33,7 +33,7 @@ namespace BusinessLogic.Validation
             }
         }
 
-        internal sealed class ValidationDictionary : Dictionary<Type, Func<IValidator>>
+        internal sealed class ValidationDictionary : Dictionary<Type, Func<IModelValidator>>
         {
             
         }
