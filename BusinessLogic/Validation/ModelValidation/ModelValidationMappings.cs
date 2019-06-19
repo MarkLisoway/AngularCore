@@ -4,7 +4,7 @@ using BusinessLogic.Validation.ModelValidation.Validators;
 
 namespace BusinessLogic.Validation.ModelValidation
 {
-    internal static class ValidationMappings
+    internal static class ModelValidationMappings
     {
         private static readonly ValidationDictionary Mappings = new ValidationMappingsBuilder()
             .RegisterValidation(() => new UserModelValidator())

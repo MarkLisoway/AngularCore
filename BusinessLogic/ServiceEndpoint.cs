@@ -19,7 +19,7 @@ namespace BusinessLogic
         public ExecutionResult<TModel> ExecuteCreate<TModel>(TModel model)
             where TModel : class
         {
-            var validator = ValidationMappings.GetValidationMapping<TModel>();
+            var validator = ModelValidationMappings.GetValidationMapping<TModel>();
             var isValid = validator.ValidateCreate(model);
 
             if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
@@ -40,7 +40,7 @@ namespace BusinessLogic
             params Expression<Func<TModel, object>>[] updatedProperties)
             where TModel : class
         {
-            var validator = ValidationMappings.GetValidationMapping<TModel>();
+            var validator = ModelValidationMappings.GetValidationMapping<TModel>();
             var isValid = validator.ValidateUpdate(model);
 
             if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
@@ -56,7 +56,7 @@ namespace BusinessLogic
         public ExecutionResult<TModel> ExecuteDelete<TModel>(TModel model)
             where TModel : class
         {
-            var validator = ValidationMappings.GetValidationMapping<TModel>();
+            var validator = ModelValidationMappings.GetValidationMapping<TModel>();
             var isValid = validator.ValidateDelete(model);
 
             if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
