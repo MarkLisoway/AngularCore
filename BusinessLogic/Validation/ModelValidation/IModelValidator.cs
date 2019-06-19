@@ -49,6 +49,7 @@ namespace BusinessLogic.Validation.ModelValidation
         IReadOnlyList<IPropertyValidationError> GetErrors();
     }
 
+    
     /// <summary>
     ///     Validation interface for all models before they get passed to the data access layer.
     /// </summary>
