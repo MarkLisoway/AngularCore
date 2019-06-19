@@ -19,7 +19,7 @@ namespace BusinessLogic
         public ExecutionResult<TModel> ExecuteCreate<TModel>(TModel model)
             where TModel : class
         {
-            var validator = GetValidator<TModel>();
+            var validator = ValidationMappings.GetValidationMapping<TModel>();
             var isValid = validator.ValidateCreate(model);
 
             if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
@@ -40,7 +40,7 @@ namespace BusinessLogic
             params Expression<Func<TModel, object>>[] updatedProperties)
             where TModel : class
         {
-            var validator = GetValidator<TModel>();
+            var validator = ValidationMappings.GetValidationMapping<TModel>();
             var isValid = validator.ValidateUpdate(model);
 
             if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
@@ -56,23 +56,13 @@ namespace BusinessLogic
         public ExecutionResult<TModel> ExecuteDelete<TModel>(TModel model)
             where TModel : class
         {
-            var validator = GetValidator<TModel>();
+            var validator = ValidationMappings.GetValidationMapping<TModel>();
             var isValid = validator.ValidateDelete(model);
 
             if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
 
             var result = _context.Set<TModel>().Remove(model);
             return ExecutionResult<TModel>.Success(result.Entity);
-        }
-
-
-        private static IModelValidator GetValidator<TModel>()
-        {
-            var validatorFactory = ValidationMappings.Mappings[typeof(TModel)];
-            if (validatorFactory == null) throw new Exception("Must have registered validation mapping.");
-
-            var validator = validatorFactory.Invoke();
-            return validator;
         }
     }
 }
