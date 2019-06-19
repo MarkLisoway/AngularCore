@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using BusinessLogic.Validation.PropertyValidation;
 
 namespace BusinessLogic.Validation.ModelValidation
@@ -21,8 +23,9 @@ namespace BusinessLogic.Validation.ModelValidation
         ///     Validates an object for an update operation.
         /// </summary>
         /// <param name="model">Object to validate.</param>
+        /// <param name="updatedProperties">Expression tree of properties which have updated values.</param>
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
-        bool ValidateUpdate(object model);
+        bool ValidateUpdate(object model, params Expression<Func<object, object>>[] updatedProperties);
 
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace BusinessLogic.Validation.ModelValidation
     ///     Validation interface for all models before they get passed to the data access layer.
     /// </summary>
     /// <typeparam name="TModel">Type of Database model being validated.</typeparam>
-    public interface IModelValidator<in TModel> : IModelValidator
+    public interface IModelValidator<TModel> : IModelValidator
     {
         /// <summary>
         ///     Validates the given domain model for a create operation.
@@ -68,8 +71,9 @@ namespace BusinessLogic.Validation.ModelValidation
         ///     Validates the given domain model for an update operation.
         /// </summary>
         /// <param name="model">Model to validate.</param>
+        /// <param name="updatedProperties">Expression tree of properties which have updated values.</param>
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
-        bool ValidateUpdate(TModel model);
+        bool ValidateUpdate(TModel model, params Expression<Func<TModel, object>>[] updatedProperties);
 
 
         /// <summary>

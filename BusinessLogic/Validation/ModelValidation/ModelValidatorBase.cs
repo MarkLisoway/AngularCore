@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq.Expressions;
 using BusinessLogic.Validation.PropertyValidation;
 
 namespace BusinessLogic.Validation.ModelValidation
@@ -23,9 +24,16 @@ namespace BusinessLogic.Validation.ModelValidation
             return FinalizeValidation(false);
         }
 
-        public bool ValidateUpdate(object model)
+        public bool ValidateUpdate(object model, params Expression<Func<object, object>>[] updatedProperties)
         {
-            if (model is TModel modelT) return ValidateUpdate(modelT);
+            var doesUpdatedPropertiesRepresentModel = updatedProperties is Expression<Func<TModel, object>>[];
+            if (!doesUpdatedPropertiesRepresentModel)
+            {
+                throw new InvalidCastException($"Given updated properties do not represent the type {nameof(TModel)}");
+            }
+            var castedUpdatedProperties = updatedProperties as Expression<Func<TModel, object>>[];
+            
+            if (model is TModel modelT) return ValidateUpdate(modelT, castedUpdatedProperties);
 
             return FinalizeValidation(false);
         }
@@ -46,7 +54,7 @@ namespace BusinessLogic.Validation.ModelValidation
 
         public abstract bool ValidateCreate(TModel model);
 
-        public abstract bool ValidateUpdate(TModel model);
+        public abstract bool ValidateUpdate(TModel model, params Expression<Func<TModel, object>>[] updatedProperties);
 
         public abstract bool ValidateDelete(TModel model);
 

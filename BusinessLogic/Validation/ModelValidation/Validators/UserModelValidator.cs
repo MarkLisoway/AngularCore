@@ -1,3 +1,5 @@
+using System;
+using System.Linq.Expressions;
 using BusinessLogic.Validation.PropertyValidation;
 using DataAccess.Models;
 
@@ -22,8 +24,10 @@ namespace BusinessLogic.Validation.ModelValidation.Validators
         }
 
         
-        public override bool ValidateUpdate(User model)
+        public override bool ValidateUpdate(User model, params Expression<Func<User, object>>[] updatedProperties)
         {
+            var set = updatedProperties.GetSquashedUpdatePropertySet();
+            
             model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors)
                 .CannotBeNull()
                 .CannotBeDefault()

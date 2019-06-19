@@ -1,3 +1,5 @@
+using System;
+using System.Linq.Expressions;
 using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
@@ -9,7 +11,7 @@ namespace BusinessLogic.Validation.ModelValidation.Validators
             return FinalizeValidation();
         }
 
-        public override bool ValidateUpdate(BlogPost model)
+        public override bool ValidateUpdate(BlogPost model, params Expression<Func<BlogPost, object>>[] updatedProperties)
         {
             return FinalizeValidation();
         }

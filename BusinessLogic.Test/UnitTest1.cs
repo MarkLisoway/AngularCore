@@ -24,9 +24,8 @@ namespace BusinessLogic.Test
                 };
                 var resultsOne = endPoint.ExecuteCreate(user);
 
-                user.Id = 0;
-                user.Name = null;
-                var resultTwo = endPoint.ExecuteUpdate(user);
+                user.Name = "Tim";
+                var resultTwo = endPoint.ExecuteUpdate(user, u => u.Name);
 
                 var userTwo = new User();
             }
