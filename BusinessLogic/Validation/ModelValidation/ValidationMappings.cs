@@ -8,6 +8,7 @@ namespace BusinessLogic.Validation.ModelValidation
     {
         internal static readonly ValidationDictionary Mappings = new ValidationMappingsBuilder()
             .RegisterValidation(() => new UserModelValidator())
+            .RegisterValidation(() => new BlogPostValidator())
             .Build();
 
         private class ValidationMappingsBuilder

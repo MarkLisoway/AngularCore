@@ -17,6 +17,7 @@ namespace BusinessLogic
             _context = context;
         }
 
+        
         public ExecutionResult<TModel> ExecuteCreate<TModel>(TModel model)
             where TModel : class
         {
@@ -36,7 +37,8 @@ namespace BusinessLogic
             return CreateSuccessfulExecutionResult(results);
         }
 
-        public ExecutionResult<TModel> ExecuteUpdate<TModel>(TModel model)
+
+        public ExecutionResult<TModel> ExecuteUpdate<TModel>(TModel model, params Expression<Func<TModel, object>>[] updatedProperties)
             where TModel : class
         {
             var validator = GetValidator<TModel>();
@@ -44,9 +46,13 @@ namespace BusinessLogic
 
             if (!isValid) return CreateFailedExecutionResult<TModel>(validator.GetErrors());
 
-            var result = _context.Set<TModel>().Update(model);
-            return CreateSuccessfulExecutionResult(result.Entity);
+            _context.Attach(model);
+            var entry = _context.Entry(model);
+            entry.ApplyModificationFlags(updatedProperties);
+
+            return CreateSuccessfulExecutionResult(entry.Entity);
         }
+        
 
         public ExecutionResult<TModel> ExecuteDelete<TModel>(TModel model)
             where TModel : class
@@ -60,6 +66,7 @@ namespace BusinessLogic
             return CreateSuccessfulExecutionResult(result.Entity);
         }
 
+        
         private static IModelValidator GetValidator<TModel>()
         {
             var validatorFactory = ValidationMappings.Mappings[typeof(TModel)];
@@ -69,6 +76,7 @@ namespace BusinessLogic
             return validator;
         }
 
+        
         private static ExecutionResult<TResult> CreateSuccessfulExecutionResult<TResult>(TResult results)
         {
             return new ExecutionResult<TResult>
@@ -78,6 +86,7 @@ namespace BusinessLogic
             };
         }
 
+        
         private static ExecutionResult<TResult> CreateFailedExecutionResult<TResult>(
             IReadOnlyList<IPropertyValidationError> errors)
         {
