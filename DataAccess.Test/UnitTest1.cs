@@ -137,6 +137,30 @@ namespace DataAccess.Test
                     .Include(b => b.Posts)
                     .First();
             }
+            
+            using (var context = new AngularCoreContext())
+            {
+                var postsToRemove = new List<BlogPost>
+                {
+                    new BlogPost
+                    {
+                        Id = 1
+                    },
+                    new BlogPost
+                    {
+                        Id = 3
+                    }
+                };
+                context.BlogPosts.RemoveRange(postsToRemove);
+                context.SaveChanges();
+            }
+            
+            using (var context = new AngularCoreContext())
+            {
+                var blog = context.Blogs
+                    .Include(b => b.Posts)
+                    .First();
+            }
         }
     }
 }
