@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using DataAccess.Context;
 using DataAccess.Models;
 using NUnit.Framework;
@@ -56,6 +60,20 @@ namespace BusinessLogic.Test
                     Id = 1,
                     Name = "Foo",
                     Content = "Bar"
+                };
+                var blog = new Blog
+                {
+                    Id = 1,
+                    Name = "Test",
+                    Posts = new List<BlogPost>
+                    {
+                        new BlogPost
+                        {
+                            Id = 100,
+                            Name = "Biz",
+                            Content = "Baz"
+                        }
+                    }
                 };
                 endPoint.ExecuteUpdate(post, p => p.Name);
 

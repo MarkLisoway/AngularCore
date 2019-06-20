@@ -30,7 +30,7 @@ namespace BusinessLogic.Validation.PropertyValidation
         public string Identifier { get; }
 
         /// <summary>
-        ///     Reference to the <see cref="ICollection{T}" /> of errors in the <see cref="ModelValidatorBase{TModel}" />.
+        ///     Reference to the <see cref="ICollection{T}" /> of errors in the <see cref="ModelValidator{TModel}" />.
         /// </summary>
         private ICollection<IPropertyValidationError> Errors { get; }
 
@@ -38,6 +38,21 @@ namespace BusinessLogic.Validation.PropertyValidation
         internal void AddError(string error)
         {
             Errors.Add(new PropertyValidationError(Identifier, error));
+        }
+    }
+
+
+    internal sealed class EnumerablePropertyValidation<TModel>
+    {
+        internal TModel Model { get; }
+        
+        internal string Prefix { get; }
+
+
+        internal EnumerablePropertyValidation(TModel model, string prefix)
+        {
+            Model = model;
+            Prefix = prefix;
         }
     }
 }

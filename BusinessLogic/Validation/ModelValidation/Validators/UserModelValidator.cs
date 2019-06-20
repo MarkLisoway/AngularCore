@@ -5,7 +5,7 @@ using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
-    public sealed class UserModelValidator : ModelValidatorBase<User>
+    public sealed class UserModelValidator : ModelValidator<User>
     {
         // ReSharper disable once ConvertToConstant.Local
         private static readonly string ValidationPrefix = nameof(User);

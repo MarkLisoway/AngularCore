@@ -4,7 +4,7 @@ using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
-    public class BlogPostValidator : ModelValidatorBase<BlogPost>
+    public class BlogPostValidator : ModelValidator<BlogPost>
     {
         public override bool ValidateCreate(BlogPost model)
         {

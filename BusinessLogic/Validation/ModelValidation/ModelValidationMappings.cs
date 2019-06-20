@@ -6,10 +6,11 @@ namespace BusinessLogic.Validation.ModelValidation
 {
     internal static class ModelValidationMappings
     {
-        private static readonly ValidationDictionary Mappings = new ValidationMappingsBuilder()
+        private static readonly ValidationDictionary Mappings = new ValidationMappingsRegistry()
             .RegisterValidation(() => new UserModelValidator())
             .RegisterValidation(() => new BlogPostValidator())
-            .Build();
+            .RegisterValidation(() => new BlogValidator())
+            .CompleteRegistration();
 
         internal static IModelValidator<TModel> GetValidationMapping<TModel>()
         {
@@ -29,24 +30,25 @@ namespace BusinessLogic.Validation.ModelValidation
             var factory = mapping as Func<IModelValidator<TModel>>;
             return factory.Invoke();
         }
+        
 
-        private sealed class ValidationMappingsBuilder
+        private sealed class ValidationMappingsRegistry
         {
             private readonly ValidationDictionary _validators = new ValidationDictionary();
             private bool _built;
 
-            internal ValidationMappingsBuilder RegisterValidation<TModel>(Func<IModelValidator<TModel>> factory)
+            internal ValidationMappingsRegistry RegisterValidation<TModel>(Func<IModelValidator<TModel>> factory)
             {
                 if (_built)
                     throw new InvalidOperationException(
-                        $"{nameof(ValidationMappingsBuilder)} cannot register validations after build.");
+                        $"{nameof(ValidationMappingsRegistry)} cannot register validations after build.");
 
                 _validators.AddMapping(factory);
 
                 return this;
             }
 
-            internal ValidationDictionary Build()
+            internal ValidationDictionary CompleteRegistration()
             {
                 _built = true;
                 return _validators;
@@ -62,9 +64,16 @@ namespace BusinessLogic.Validation.ModelValidation
                 _mappings[typeof(TModel)] = factory;
             }
 
+            
             internal object GetMapping<TModel>()
             {
                 return _mappings[typeof(TModel)];
+            }
+            
+            
+            internal object GetMapping(Type type)
+            {
+                return _mappings[type];
             }
         }
     }

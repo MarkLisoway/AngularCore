@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace BusinessLogic.Validation.PropertyValidation
@@ -152,6 +153,30 @@ namespace BusinessLogic.Validation.PropertyValidation
             if (validator.Property != string.Empty) validator.AddError($"{validator.Alias} must be empty");
 
             return validator;
+        }
+
+
+        //**************************************************
+        //* ICollection<T> validations
+        //**************************************************
+        
+
+        internal static PropertyValidations<ICollection<TModel>> ValidateEnumerable<TModel>(
+            this PropertyValidations<ICollection<TModel>> validations,
+            Action<EnumerablePropertyValidation<TModel>> action)
+        {
+            if (validations.Property == null)
+            {
+                throw new NullReferenceException("Collection cannot be null to validate.");
+            }
+            
+            foreach (var model in validations.Property)
+            {
+                var enumerablePropertyValidation = new EnumerablePropertyValidation<TModel>(model, validations.Identifier);
+                action.Invoke(enumerablePropertyValidation);
+            }
+
+            return validations;
         }
     }
 }
