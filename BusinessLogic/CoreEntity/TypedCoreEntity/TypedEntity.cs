@@ -1,61 +1,156 @@
 using System;
 using System.Collections.Generic;
 
+
+
 namespace BusinessLogic.CoreEntity.TypedCoreEntity
 {
-    public class TypedEntity<T> : IEntity<T>, IEquatable<T>
+
+    public class TypedEntity<T> : IEntity<T>, IComparable<TypedEntity<T>>, IComparable<T>, IComparable,
+        IEquatable<TypedEntity<T>>, IEquatable<T>
+        where T : class
     {
-    
-        ///**************************************************
-        //* Property
+
         //**************************************************
+        //* Constructors
+        //**************************************************
+
+        //--------------------------------------------------
+        public TypedEntity(T value)
+        {
+            _value = value ?? throw new ArgumentException(nameof(value));
+            State = EntityState.Set;
+        }
+
+
+
+        //**************************************************
+        //* IEntity<T> overrides
+        //**************************************************
+
+        //--------------------------------------------------
+        /// <inheritdoc />
         public T Value { get; }
-        
-        public EntityState State { get; private set; }
 
-        public bool HasValue => State == EntityState.Set;
-        
-        
+        //--------------------------------------------------
+        /// <inheritdoc />
+        public EntityState State { get; }
+
+        //--------------------------------------------------
+        /// <inheritdoc />
+        public bool IsUnknown => State == EntityState.Unknown;
+
+        //--------------------------------------------------
+        /// <inheritdoc />
+        public bool IsNotSet => State == EntityState.NotSet;
+
+        //--------------------------------------------------
+        /// <inheritdoc />
+        public bool IsSet => State == EntityState.Set;
+
+        //--------------------------------------------------
+        /// <inheritdoc />
+        public bool IsNull => State == EntityState.Null;
+
+
 
         //**************************************************
-        //* Static initializer
+        //* IComparable<T> overrides
         //**************************************************
 
-        //--------------------------------------------
-        public static TypedEntity<T> Unknown => new TypedEntity<T>(EntityState.Unknown);
-        
-        //--------------------------------------------
-        public static TypedEntity<T> NotSet => new TypedEntity<T>(EntityState.NotSet);
-        
-        //--------------------------------------------
-        public static TypedEntity<T> Null => new TypedEntity<T>(EntityState.NotSet);
-
-
-
-        //**************************************************
-        //* Constructor
-        //**************************************************
-
-        //--------------------------------------------
-        internal TypedEntity(T value, EntityState state)
+        //--------------------------------------------------
+        public virtual int CompareTo(T other)
         {
-            VerifyValueTypeIsSupported(value);
-            
-            Value = value;
-            State = state;
+            return CompareTo(new TypedEntity<T>(other));
         }
 
 
-        //--------------------------------------------
-        internal TypedEntity(T value): this(value, GetStateBasedOnValue(value))
+        //--------------------------------------------------
+        public int CompareTo(TypedEntity<T> other)
         {
+            if (!IsSet)
+            {
+                if (!other.IsSet)
+                {
+                    return State - other.State;
+                }
+
+                return -1;
+            }
+
+            if (!other.IsSet)
+            {
+                return 1;
+            }
         }
 
 
-        //--------------------------------------------
-        internal TypedEntity(EntityState state)
+
+        //**************************************************
+        //* IComparable overrides
+        //**************************************************
+
+        //--------------------------------------------------
+        public int CompareTo(object obj)
         {
-            State = state;
+            switch (obj)
+            {
+                case T objT:
+                    return CompareTo(objT);
+                case TypedEntity<T> objTe:
+                    return CompareTo(objTe);
+                default:
+                    throw new ArgumentException($"{nameof(obj)} not of type {nameof(T)}, or {nameof(TypedEntity<T>)}");
+            }
+        }
+
+
+
+        //**************************************************
+        //* IEquatable<T> overrides
+        //**************************************************
+
+        //--------------------------------------------------
+        public bool Equals(T other)
+        {
+            return Equals(new TypedEntity<T>(other));
+        }
+
+        //--------------------------------------------------
+        public bool Equals(TypedEntity<T> other)
+        {
+            return CompareTo(other) == 0;
+        }
+
+
+
+        //**************************************************
+        //* Object overrides
+        //**************************************************
+
+        //--------------------------------------------------
+        public override bool Equals(object obj)
+        {
+            switch (obj)
+            {
+                case T objT:
+                    return Equals(objT);
+                case TypedEntity<T> objTe:
+                    return Equals(objTe);
+                default:
+                    throw new ArgumentException($"{nameof(obj)} not of type {nameof(T)}, or {nameof(TypedEntity<T>)}");
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = EqualityComparer<T>.Default.GetHashCode(_value);
+                hashCode = (hashCode * 397) ^ EqualityComparer<T>.Default.GetHashCode(Value);
+                hashCode = (hashCode * 397) ^ (int) State;
+                return hashCode;
+            }
         }
 
 
@@ -64,39 +159,9 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         //* Private
         //**************************************************
 
-        //--------------------------------------------
-        private static EntityState GetStateBasedOnValue(T value)
-        {
-            if (value == null)
-            {
-                return EntityState.Null;
-            }
+        //--------------------------------------------------
+        private readonly T _value;
 
-            var valueType = typeof(T);
-            return valueType.IsPrimitive
-                ? EntityState.Set
-                : EntityState.Unknown;
-        }
-
-
-        //--------------------------------------------
-        private static void VerifyValueTypeIsSupported(T value)
-        {
-            var valueType = typeof(T);
-            if (valueType.IsPrimitive || valueType.IsArray || valueType.IsClass)
-            {
-                return;
-            }
-            
-            throw new ArgumentException($"{nameof(value)} is of unsupported type {valueType.Name}.");
-        }
-
-
-        //--------------------------------------------
-        public virtual bool Equals(T other)
-        {
-            return HasValue && Value.Equals(other);
-        }
-        
     }
+
 }
