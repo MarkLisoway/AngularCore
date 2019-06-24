@@ -22,15 +22,26 @@ namespace DataAccess.Test
             {
                 context.Users.Add(new User
                 {
-                    Name = "Mark Lisoway"
+                    Name = "Mark Lisoway",
+                    OtherName = "Some Other Name"
                 });
                 context.SaveChanges();
             }
 
             using (var context = new AngularCoreContext())
             {
+                var user = new User
+                {
+                    Id = 1,
+                    Name = "Hello World"
+                };
+                user.Name = "A New Name";
+                context.SaveChanges();
+            }
+            
+            using (var context = new AngularCoreContext())
+            {
                 var user = context.Users.First();
-                Assert.AreEqual("Mark Lisoway", user.Name);
             }
 
             using (var context = new AngularCoreContext())

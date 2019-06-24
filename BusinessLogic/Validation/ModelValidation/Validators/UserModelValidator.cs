@@ -1,58 +1,39 @@
 using System;
 using System.Linq.Expressions;
 using BusinessLogic.Validation.PropertyValidation;
+using BusinessLogic.ValidationModels;
 using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
-    public sealed class UserModelValidator : ModelValidator<User>
+    public sealed class UserModelValidator : ModelValidator<ValidationUser>
     {
         // ReSharper disable once ConvertToConstant.Local
         private static readonly string ValidationPrefix = nameof(User);
 
         
-        public override bool ValidateCreate(User model)
+        public override bool ValidateCreate(ValidationUser model)
         {
-            model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors)
-                .MustBeDefault();
+            return FinalizeValidation();
+        }
 
-            model.Name.BeginValidation(ValidationPrefix, nameof(model.Name), Errors)
-                .CannotBeNull()
-                .CannotBeEmpty();
+        
+        public override bool ValidateUpdate(ValidationUser model)
+        {
+            model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors);
             
             return FinalizeValidation();
         }
 
         
-        public override bool ValidateUpdate(User model, params Expression<Func<User, object>>[] updatedProperties)
+        public override bool ValidateDelete(ValidationUser model)
         {
-            var set = updatedProperties.GetSquashedUpdatePropertySet();
-            
-            model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors)
-                .CannotBeNull()
-                .CannotBeDefault()
-                .MustBeGreaterThanOrEqualTo(1);
-
-            model.Name.BeginValidation(ValidationPrefix, nameof(model.Name), Errors)
-                .IfThen(!string.IsNullOrEmpty(model.Name), name => name
-                    .CannotBeDefault());
-
-            return FinalizeValidation();
-        }
-
-        
-        public override bool ValidateDelete(User model)
-        {
-            model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors)
-                .CannotBeNull()
-                .CannotBeDefault()
-                .MustBeGreaterThanOrEqualTo(1);
             
             return FinalizeValidation(true);
         }
 
         
-        public override bool Validate(User model)
+        public override bool Validate(ValidationUser model)
         {
             return ValidateCreate(model);
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using BusinessLogic.CoreEntity.TypedCoreEntity;
+using BusinessLogic.ValidationModels;
 using DataAccess.Context;
 using DataAccess.Models;
 using NUnit.Framework;
@@ -73,9 +75,10 @@ namespace BusinessLogic.Test
                             Name = "Biz",
                             Content = "Baz"
                         }
-                    }
+                    },
+                    Post = post
                 };
-                endPoint.ExecuteUpdate(post, p => p.Name);
+                endPoint.ExecuteUpdate(blog, b => b.Name, b => b.Post.Name);
 
                 context.SaveChanges();
             }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using BusinessLogic.Validation.ModelValidation;
+using BusinessLogic.ValidationModels;
 using DataAccess.Context;
 
 namespace BusinessLogic
@@ -36,20 +37,21 @@ namespace BusinessLogic
         }
 
 
-        public ExecutionResult<TModel> ExecuteUpdate<TModel>(TModel model,
-            params Expression<Func<TModel, object>>[] updatedProperties)
-            where TModel : class
+        public ExecutionResult<TValidationModel> ExecuteUpdate<TValidationModel, TModel>(TValidationModel validationModel)
+        where TValidationModel : IValidationModel<TModel>
         {
-            var validator = ModelValidationMappings.GetValidationMapping<TModel>();
-            var isValid = validator.ValidateUpdate(model);
+            var validator = ModelValidationMappings.GetValidationMapping<TValidationModel>();
+            var isValid = validator.ValidateUpdate(validationModel);
 
-            if (!isValid) return ExecutionResult<TModel>.Fail(validator.GetErrors());
+            if (!isValid) return ExecutionResult<TValidationModel>.Fail(validator.GetErrors());
 
+            var model = validationModel.ToModel();
             _context.Attach(model);
             var entry = _context.Entry(model);
+            
             entry.ApplyModificationFlags(updatedProperties);
 
-            return ExecutionResult<TModel>.Success(entry.Entity);
+            return ExecutionResult<TValidationModel>.Success(entry.Entity);
         }
 
 

@@ -8,6 +8,8 @@ namespace DataAccess.Models
         
         public string Name { get; set; }
 
+        public BlogPost Post { get; set; }
+        
         public ICollection<BlogPost> Posts { get; set; }
     }
 }
