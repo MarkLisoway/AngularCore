@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using BusinessLogic.CoreEntity.TypedCoreEntity;
-using BusinessLogic.ValidationModels;
-using DataAccess.Context;
-using DataAccess.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUnit.Framework;
 
 namespace BusinessLogic.Test
@@ -21,89 +14,12 @@ namespace BusinessLogic.Test
         [Test]
         public void Test1()
         {
-            using (var context = new AngularCoreContext())
-            {
-                var endPoint = new ServiceEndpoint(context);
-                var user = new User
-                {
-                    Name = "Mark"
-                };
-                var resultsOne = endPoint.ExecuteCreate(user);
+            var one = BoolType.NotSet;
 
-                user.Name = "Tim";
-                var resultTwo = endPoint.ExecuteUpdate(user, u => u.Name);
+            var two = BoolType.True;
 
-                var userTwo = new User();
-            }
+            var val = one.CompareTo(two);
         }
-
-
-        [Test]
-        public void Test2()
-        {
-            using (var context = new AngularCoreContext())
-            {
-                var endPoint = new ServiceEndpoint(context);
-                var post = new BlogPost
-                {
-                    Name = "Hello",
-                    Content = "World"
-                };
-                endPoint.ExecuteCreate(post);
-
-                context.SaveChanges();
-            }
-            
-            using (var context = new AngularCoreContext())
-            {
-                var endPoint = new ServiceEndpoint(context);
-                var post = new BlogPost
-                {
-                    Id = 1,
-                    Name = "Foo",
-                    Content = "Bar"
-                };
-                var blog = new Blog
-                {
-                    Id = 1,
-                    Name = "Test",
-                    Posts = new List<BlogPost>
-                    {
-                        new BlogPost
-                        {
-                            Id = 100,
-                            Name = "Biz",
-                            Content = "Baz"
-                        }
-                    },
-                    Post = post
-                };
-                endPoint.ExecuteUpdate(blog, b => b.Name, b => b.Post.Name);
-
-                context.SaveChanges();
-            }
-            
-            using (var context = new AngularCoreContext())
-            {
-                var endPoint = new ServiceEndpoint(context);
-                var result = endPoint.ExecuteRead<BlogPost, TestDto>(p => new TestDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Content = p.Content
-                });
-
-                var post = result.Results.First();
-                
-                context.SaveChanges();
-            }
-        }
-
-        private class TestDto
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Content { get; set; }
-        }
+        
     }
 }

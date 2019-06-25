@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using BusinessLogic.Validation.ModelValidation;
-using BusinessLogic.ValidationModels;
 using DataAccess.Context;
 
 namespace BusinessLogic
@@ -37,22 +36,22 @@ namespace BusinessLogic
         }
 
 
-        public ExecutionResult<TValidationModel> ExecuteUpdate<TValidationModel, TModel>(TValidationModel validationModel)
-        where TValidationModel : IValidationModel<TModel>
-        {
-            var validator = ModelValidationMappings.GetValidationMapping<TValidationModel>();
-            var isValid = validator.ValidateUpdate(validationModel);
-
-            if (!isValid) return ExecutionResult<TValidationModel>.Fail(validator.GetErrors());
-
-            var model = validationModel.ToModel();
-            _context.Attach(model);
-            var entry = _context.Entry(model);
-            
-            entry.ApplyModificationFlags(updatedProperties);
-
-            return ExecutionResult<TValidationModel>.Success(entry.Entity);
-        }
+        /// public ExecutionResult<TValidationModel> ExecuteUpdate<TValidationModel, TModel>(TValidationModel validationModel)
+        /// where TValidationModel : IValidationModel<TModel>
+        /// {
+        ///     var validator = ModelValidationMappings.GetValidationMapping<TValidationModel>();
+        ///     var isValid = validator.ValidateUpdate(validationModel);
+/// 
+        ///     if (!isValid) return ExecutionResult<TValidationModel>.Fail(validator.GetErrors());
+/// 
+        ///     var model = validationModel.ToModel();
+        ///     _context.Attach(model);
+        ///     var entry = _context.Entry(model);
+        ///     
+        ///     entry.ApplyModificationFlags(updatedProperties);
+/// 
+        ///     return ExecutionResult<TValidationModel>.Success(entry.Entity);
+        /// }
 
 
         public ExecutionResult<TModel> ExecuteDelete<TModel>(TModel model)

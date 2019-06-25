@@ -1,28 +1,26 @@
-using System;
-using System.Linq.Expressions;
-using BusinessLogic.ValidationModels;
+
 using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
-    public class BlogPostValidator : ModelValidator<ValidationBlogPost>
+    public class BlogPostValidator : ModelValidator<BlogPost>
     {
-        public override bool ValidateCreate(ValidationBlogPost model)
+        public override bool ValidateCreate(BlogPost model)
         {
             return FinalizeValidation();
         }
 
-        public override bool ValidateUpdate(ValidationBlogPost model)
+        public override bool ValidateUpdate(BlogPost model)
         {
             return FinalizeValidation();
         }
 
-        public override bool ValidateDelete(ValidationBlogPost model)
+        public override bool ValidateDelete(BlogPost model)
         {
             return FinalizeValidation();
         }
 
-        public override bool Validate(ValidationBlogPost model)
+        public override bool Validate(BlogPost model)
         {
             return FinalizeValidation();
         }

@@ -11,9 +11,8 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
     /// <typeparam name="T">Value type this wrapper wraps.</typeparam>
     public class TypedEntity<T> : IEntity<T>, IComparable<TypedEntity<T>>, IComparable<T>, IComparable,
         IEquatable<TypedEntity<T>>, IEquatable<T>
-        where T : class
     {
-
+        
         //**************************************************
         //* Constructors
         //**************************************************
@@ -41,9 +40,36 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         /// <exception cref="ArgumentException">Thrown when given value is null.</exception>
         public TypedEntity(T value)
         {
-            Value = value ?? throw new ArgumentException(nameof(value));
+            if (value == null)
+            {
+                throw new ArgumentException(nameof(value));
+            }
+
+            Value = value;
             State = EntityState.Set;
         }
+
+        //**************************************************
+        //* Static initializers
+        //**************************************************
+
+        //--------------------------------------------------
+        /// <summary>
+        ///     Creates a new <see cref="TypedEntity{T}" /> in the Unknown state.
+        /// </summary>
+        public static TypedEntity<T> Unknown => new TypedEntity<T>(default, EntityState.Unknown);
+
+        //--------------------------------------------------
+        /// <summary>
+        ///     Creates a new <see cref="TypedEntity{T}" /> in the NotSet state.
+        /// </summary>
+        public static TypedEntity<T> NotSet => new TypedEntity<T>(default, EntityState.NotSet);
+
+        //--------------------------------------------------
+        /// <summary>
+        ///     Creates a new <see cref="TypedEntity{T}" /> in the Null state.
+        /// </summary>
+        public static TypedEntity<T> Null => new TypedEntity<T>(default, EntityState.Null);
 
 
 
@@ -141,7 +167,7 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         }
 
         //--------------------------------------------------
-        public virtual bool Equals(TypedEntity<T> other)
+        public bool Equals(TypedEntity<T> other)
         {
             return CompareTo(other) == 0;
         }

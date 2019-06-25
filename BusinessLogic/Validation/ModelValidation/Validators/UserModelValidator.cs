@@ -1,24 +1,22 @@
-using System;
-using System.Linq.Expressions;
+
 using BusinessLogic.Validation.PropertyValidation;
-using BusinessLogic.ValidationModels;
 using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
-    public sealed class UserModelValidator : ModelValidator<ValidationUser>
+    public sealed class UserModelValidator : ModelValidator<User>
     {
         // ReSharper disable once ConvertToConstant.Local
         private static readonly string ValidationPrefix = nameof(User);
 
         
-        public override bool ValidateCreate(ValidationUser model)
+        public override bool ValidateCreate(User model)
         {
             return FinalizeValidation();
         }
 
         
-        public override bool ValidateUpdate(ValidationUser model)
+        public override bool ValidateUpdate(User model)
         {
             model.Id.BeginValidation(ValidationPrefix, nameof(model.Id), Errors);
             
@@ -26,14 +24,14 @@ namespace BusinessLogic.Validation.ModelValidation.Validators
         }
 
         
-        public override bool ValidateDelete(ValidationUser model)
+        public override bool ValidateDelete(User model)
         {
             
             return FinalizeValidation(true);
         }
 
         
-        public override bool Validate(ValidationUser model)
+        public override bool Validate(User model)
         {
             return ValidateCreate(model);
         }
