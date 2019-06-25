@@ -73,22 +73,32 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         /// </returns>
         public override int CompareTo(TypedEntity<bool> other)
         {
-            if (!IsSet || !other.IsSet)
+            if (IsSet && other.IsSet)
             {
-                return base.CompareTo(other);
+                if (Value == other.Value)
+                {
+                    return 0;
+                }
+
+                if (Value)
+                {
+                    return 1;
+                }
+
+                return -1;
             }
 
-            if (Value == other.Value)
-            {
-                return 0;
-            }
-
-            if (Value)
+            if (IsSet)
             {
                 return 1;
             }
 
-            return -1;
+            if (other.IsSet)
+            {
+                return -1;
+            }
+
+            return 0;
         }
 
     }

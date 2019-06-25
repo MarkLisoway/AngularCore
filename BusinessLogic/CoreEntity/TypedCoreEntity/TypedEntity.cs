@@ -5,14 +5,14 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 {
 
     /// <summary>
-    ///     A wrapper around a given type to hold, and manage state,
-    ///     as well as provide equality, and comparison interface implementations.
+    ///     A wrapper around a given type to hold, manage state,
+    ///     as well as provide equality, and comparison interface & operator implementations.
     /// </summary>
     /// <typeparam name="T">Value type this wrapper wraps.</typeparam>
     public class TypedEntity<T> : IEntity<T>, IComparable<TypedEntity<T>>, IComparable<T>, IComparable,
         IEquatable<TypedEntity<T>>, IEquatable<T>
     {
-        
+
         //**************************************************
         //* Constructors
         //**************************************************
@@ -218,6 +218,100 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
                 return hashCode;
             }
+        }
+
+
+
+        //**************************************************
+        //* Comparison operators
+        //**************************************************
+
+        //--------------------------------------------------
+        public static bool operator ==(TypedEntity<T> left, TypedEntity<T> right)
+        {
+            if (left is null)
+            {
+                throw new ArgumentException(nameof(left));
+            }
+
+            if (right is null)
+            {
+                throw new ArgumentException(nameof(right));
+            }
+
+            return left.Equals(right);
+        }
+
+        //--------------------------------------------------
+        public static bool operator !=(TypedEntity<T> left, TypedEntity<T> right)
+        {
+            return !(left == right);
+        }
+
+        //--------------------------------------------------
+        public static bool operator >(TypedEntity<T> left, TypedEntity<T> right)
+        {
+            if (left == null)
+            {
+                throw new ArgumentException(nameof(left));
+            }
+
+            if (right == null)
+            {
+                throw new ArgumentException(nameof(right));
+            }
+
+            var comparison = left.CompareTo(right);
+
+            switch (comparison)
+            {
+                case 1:
+                    return true;
+                case 0:
+                case -1:
+                    return false;
+                default:
+                    throw new InvalidOperationException("Comparison returned value other than 1, 0, or -1.");
+            }
+        }
+
+        //--------------------------------------------------
+        public static bool operator <(TypedEntity<T> left, TypedEntity<T> right)
+        {
+            return !(left > right);
+        }
+
+        //--------------------------------------------------
+        public static bool operator >=(TypedEntity<T> left, TypedEntity<T> right)
+        {
+            if (left == null)
+            {
+                throw new ArgumentException(nameof(left));
+            }
+
+            if (right == null)
+            {
+                throw new ArgumentException(nameof(right));
+            }
+
+            var comparison = left.CompareTo(right);
+
+            switch (comparison)
+            {
+                case 1:
+                case 0:
+                    return true;
+                case -1:
+                    return false;
+                default:
+                    throw new InvalidOperationException("Comparison returned value other than 1, 0, or -1.");
+            }
+        }
+
+        //--------------------------------------------------
+        public static bool operator <=(TypedEntity<T> left, TypedEntity<T> right)
+        {
+            return !(left >= right);
         }
 
     }
