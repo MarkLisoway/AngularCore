@@ -4,6 +4,11 @@ using System.Collections.Generic;
 namespace BusinessLogic.CoreEntity.TypedCoreEntity
 {
 
+    /// <summary>
+    ///     A wrapper around a given type to hold, and manage state,
+    ///     as well as provide equality, and comparison interface implementations.
+    /// </summary>
+    /// <typeparam name="T">Value type this wrapper wraps.</typeparam>
     public class TypedEntity<T> : IEntity<T>, IComparable<TypedEntity<T>>, IComparable<T>, IComparable,
         IEquatable<TypedEntity<T>>, IEquatable<T>
         where T : class
