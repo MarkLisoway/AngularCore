@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-
-
 namespace BusinessLogic.CoreEntity.TypedCoreEntity
 {
 
@@ -17,7 +15,7 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
         //--------------------------------------------------
         /// <summary>
-        /// Creates a new <see cref="TypedEntity{T}"/> with the given value, and state.
+        ///     Creates a new <see cref="TypedEntity{T}" /> with the given value, and state.
         /// </summary>
         /// <param name="value">Value of the entity.</param>
         /// <param name="state">State of the entity.</param>
@@ -29,10 +27,10 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
         //--------------------------------------------------
         /// <summary>
-        /// Creates a new <see cref="TypedEntity{T}"/> with the given value.
+        ///     Creates a new <see cref="TypedEntity{T}" /> with the given value.
         /// </summary>
         /// <remarks>
-        /// Given value cannot be null.
+        ///     Given value cannot be null.
         /// </remarks>
         /// <param name="value">Value of the entity.</param>
         /// <exception cref="ArgumentException">Thrown when given value is null.</exception>
@@ -45,26 +43,22 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
 
         //**************************************************
-        //* IEntity<T> overrides
+        //* IComparable overrides
         //**************************************************
 
         //--------------------------------------------------
-        public T Value { get; }
-
-        //--------------------------------------------------
-        public EntityState State { get; }
-
-        //--------------------------------------------------
-        public bool IsUnknown => State == EntityState.Unknown;
-
-        //--------------------------------------------------
-        public bool IsNotSet => State == EntityState.NotSet;
-
-        //--------------------------------------------------
-        public bool IsSet => State == EntityState.Set;
-
-        //--------------------------------------------------
-        public bool IsNull => State == EntityState.Null;
+        public int CompareTo(object obj)
+        {
+            switch (obj)
+            {
+                case T objT:
+                    return CompareTo(objT);
+                case TypedEntity<T> objTe:
+                    return CompareTo(objTe);
+                default:
+                    throw new ArgumentException($"{nameof(obj)} not of type {nameof(T)}, or {nameof(TypedEntity<T>)}");
+            }
+        }
 
 
 
@@ -82,7 +76,7 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         //--------------------------------------------------
         /// <inheritdoc />
         /// <remarks>
-        /// Should be overridden in extending classes to ensure correct comparisons.
+        ///     Should be overridden in extending classes to ensure correct comparisons.
         /// </remarks>
         public virtual int CompareTo(TypedEntity<T> other)
         {
@@ -108,22 +102,26 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
 
         //**************************************************
-        //* IComparable overrides
+        //* IEntity<T> overrides
         //**************************************************
 
         //--------------------------------------------------
-        public int CompareTo(object obj)
-        {
-            switch (obj)
-            {
-                case T objT:
-                    return CompareTo(objT);
-                case TypedEntity<T> objTe:
-                    return CompareTo(objTe);
-                default:
-                    throw new ArgumentException($"{nameof(obj)} not of type {nameof(T)}, or {nameof(TypedEntity<T>)}");
-            }
-        }
+        public T Value { get; }
+
+        //--------------------------------------------------
+        public EntityState State { get; }
+
+        //--------------------------------------------------
+        public bool IsUnknown => State == EntityState.Unknown;
+
+        //--------------------------------------------------
+        public bool IsNotSet => State == EntityState.NotSet;
+
+        //--------------------------------------------------
+        public bool IsSet => State == EntityState.Set;
+
+        //--------------------------------------------------
+        public bool IsNull => State == EntityState.Null;
 
 
 
@@ -163,6 +161,7 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
             }
         }
 
+        //--------------------------------------------------
         public override int GetHashCode()
         {
             if (IsUnknown)
