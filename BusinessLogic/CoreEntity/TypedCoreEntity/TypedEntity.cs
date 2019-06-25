@@ -16,9 +16,29 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         //**************************************************
 
         //--------------------------------------------------
+        /// <summary>
+        /// Creates a new <see cref="TypedEntity{T}"/> with the given value, and state.
+        /// </summary>
+        /// <param name="value">Value of the entity.</param>
+        /// <param name="state">State of the entity.</param>
+        protected TypedEntity(T value, EntityState state)
+        {
+            Value = value;
+            State = state;
+        }
+
+        //--------------------------------------------------
+        /// <summary>
+        /// Creates a new <see cref="TypedEntity{T}"/> with the given value.
+        /// </summary>
+        /// <remarks>
+        /// Given value cannot be null.
+        /// </remarks>
+        /// <param name="value">Value of the entity.</param>
+        /// <exception cref="ArgumentException">Thrown when given value is null.</exception>
         public TypedEntity(T value)
         {
-            _value = value ?? throw new ArgumentException(nameof(value));
+            Value = value ?? throw new ArgumentException(nameof(value));
             State = EntityState.Set;
         }
 
@@ -29,27 +49,21 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         //**************************************************
 
         //--------------------------------------------------
-        /// <inheritdoc />
         public T Value { get; }
 
         //--------------------------------------------------
-        /// <inheritdoc />
         public EntityState State { get; }
 
         //--------------------------------------------------
-        /// <inheritdoc />
         public bool IsUnknown => State == EntityState.Unknown;
 
         //--------------------------------------------------
-        /// <inheritdoc />
         public bool IsNotSet => State == EntityState.NotSet;
 
         //--------------------------------------------------
-        /// <inheritdoc />
         public bool IsSet => State == EntityState.Set;
 
         //--------------------------------------------------
-        /// <inheritdoc />
         public bool IsNull => State == EntityState.Null;
 
 
@@ -59,29 +73,36 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         //**************************************************
 
         //--------------------------------------------------
-        public virtual int CompareTo(T other)
+        public int CompareTo(T other)
         {
             return CompareTo(new TypedEntity<T>(other));
         }
 
 
         //--------------------------------------------------
-        public int CompareTo(TypedEntity<T> other)
+        /// <inheritdoc />
+        /// <remarks>
+        /// Should be overridden in extending classes to ensure correct comparisons.
+        /// </remarks>
+        public virtual int CompareTo(TypedEntity<T> other)
         {
-            if (!IsSet)
+            if (IsSet)
             {
-                if (!other.IsSet)
-                {
-                    return State - other.State;
-                }
-
-                return -1;
+                return !other.IsSet
+                    ? 1
+                    : 0;
             }
 
             if (!other.IsSet)
             {
-                return 1;
+                return State == other.State
+                    ? 0
+                    : State > other.State
+                        ? 1
+                        : -1;
             }
+
+            return -1;
         }
 
 
@@ -117,7 +138,7 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
         }
 
         //--------------------------------------------------
-        public bool Equals(TypedEntity<T> other)
+        public virtual bool Equals(TypedEntity<T> other)
         {
             return CompareTo(other) == 0;
         }
@@ -144,23 +165,30 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
         public override int GetHashCode()
         {
+            if (IsUnknown)
+            {
+                return -3;
+            }
+
+            if (IsNotSet)
+            {
+                return -2;
+            }
+
+            if (IsNull)
+            {
+                return -1;
+            }
+
             unchecked
             {
-                var hashCode = EqualityComparer<T>.Default.GetHashCode(_value);
+                var hashCode = EqualityComparer<T>.Default.GetHashCode(Value);
                 hashCode = (hashCode * 397) ^ EqualityComparer<T>.Default.GetHashCode(Value);
                 hashCode = (hashCode * 397) ^ (int) State;
+
                 return hashCode;
             }
         }
-
-
-
-        //**************************************************
-        //* Private
-        //**************************************************
-
-        //--------------------------------------------------
-        private readonly T _value;
 
     }
 

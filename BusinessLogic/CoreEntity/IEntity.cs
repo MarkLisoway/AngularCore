@@ -30,7 +30,7 @@ namespace BusinessLogic.CoreEntity
         ///     Is the entity's value unknown.
         /// </summary>
         bool IsUnknown { get; }
-        
+
         //--------------------------------------------------
         /// <summary>
         ///     Is the entity's value not set.
