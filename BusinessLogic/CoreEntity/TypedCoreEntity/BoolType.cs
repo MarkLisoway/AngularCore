@@ -3,7 +3,7 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
     public class BoolType : TypedEntity<bool>
     {
-        
+
         //**************************************************
         //* Constructors
         //**************************************************
@@ -30,19 +30,19 @@ namespace BusinessLogic.CoreEntity.TypedCoreEntity
 
         //--------------------------------------------------
         /// <summary>
-        ///     Creates a new <see cref="BoolType"/> in the Set state with a value of true.
+        ///     Creates a new <see cref="BoolType" /> in the Set state with a value of true.
         /// </summary>
         public static BoolType True => new BoolType(true);
 
         //--------------------------------------------------
         /// <summary>
-        ///     Creates a new <see cref="BoolType"/> in the Set state with a value of false.
+        ///     Creates a new <see cref="BoolType" /> in the Set state with a value of false.
         /// </summary>
         public static BoolType False => new BoolType(false);
 
         //--------------------------------------------------
         /// <summary>
-        ///     Creates a new <see cref="BoolType"/> in the Unknown state.
+        ///     Creates a new <see cref="BoolType" /> in the Unknown state.
         /// </summary>
         public new static BoolType Unknown => new BoolType(default, EntityState.Unknown);
 

@@ -6,8 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApi
 {
+
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,5 +35,7 @@ namespace WebApi
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
     }
+
 }

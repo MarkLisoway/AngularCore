@@ -3,8 +3,10 @@ using BusinessLogic.Validation.ModelValidation;
 
 namespace BusinessLogic.Validation.PropertyValidation
 {
+
     public sealed class PropertyValidations<T>
     {
+
         /// <summary>
         ///     Allows fluent validation for a specific property on a model.
         /// </summary>
@@ -15,7 +17,11 @@ namespace BusinessLogic.Validation.PropertyValidation
         /// </param>
         /// <param name="alias">Alias of the property. Combined with the prefix to create a unique identifier for the property.</param>
         /// <param name="errors">Reference to a collection of errors in which the properties errors will be stored./></param>
-        internal PropertyValidations(T property, string prefix, string alias, ICollection<IPropertyValidationError> errors)
+        internal PropertyValidations(
+            T property,
+            string prefix,
+            string alias,
+            ICollection<IPropertyValidationError> errors)
         {
             Property = property;
             Alias = alias;
@@ -30,7 +36,7 @@ namespace BusinessLogic.Validation.PropertyValidation
         public string Identifier { get; }
 
         /// <summary>
-        ///     Reference to the <see cref="ICollection{T}" /> of errors in the <see cref="ModelValidator{TModel}" />.
+        ///     Reference to the <see cref="ICollection{T}" /> of errors in the <see cref="ModelValidator{TValidationModel}" />.
         /// </summary>
         private ICollection<IPropertyValidationError> Errors { get; }
 
@@ -39,14 +45,13 @@ namespace BusinessLogic.Validation.PropertyValidation
         {
             Errors.Add(new PropertyValidationError(Identifier, error));
         }
+
     }
+
 
 
     internal sealed class EnumerablePropertyValidation<TModel>
     {
-        internal TModel Model { get; }
-        
-        internal string Prefix { get; }
 
 
         internal EnumerablePropertyValidation(TModel model, string prefix)
@@ -54,5 +59,11 @@ namespace BusinessLogic.Validation.PropertyValidation
             Model = model;
             Prefix = prefix;
         }
+
+        internal TModel Model { get; }
+
+        internal string Prefix { get; }
+
     }
+
 }

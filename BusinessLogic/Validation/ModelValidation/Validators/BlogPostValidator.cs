@@ -1,10 +1,11 @@
-
 using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
+
     public class BlogPostValidator : ModelValidator<BlogPost>
     {
+
         public override bool ValidateCreate(BlogPost model)
         {
             return FinalizeValidation();
@@ -24,5 +25,7 @@ namespace BusinessLogic.Validation.ModelValidation.Validators
         {
             return FinalizeValidation();
         }
+
     }
+
 }

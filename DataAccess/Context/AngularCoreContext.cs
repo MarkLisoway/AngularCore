@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Context
 {
+
     public class AngularCoreContext : DbContext
     {
+
         internal DbSet<User> Users { get; set; }
-        
+
         internal DbSet<Blog> Blogs { get; set; }
-        
+
         internal DbSet<BlogPost> BlogPosts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,5 +28,7 @@ namespace DataAccess.Context
             modelBuilder.ApplyConfiguration(new BlogConfiguration());
             modelBuilder.ApplyConfiguration(new BlogPostConfiguration());
         }
+
     }
+
 }

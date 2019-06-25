@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.ModelConfigurations
 {
+
     public class BlogConfiguration : IEntityTypeConfiguration<Blog>
     {
+
         public void Configure(EntityTypeBuilder<Blog> builder)
         {
             builder
@@ -18,7 +20,9 @@ namespace DataAccess.ModelConfigurations
                 .IsRequired()
                 .HasMaxLength(255);
             builder.HasMany(b => b.Posts)
-                .WithOne();
+                   .WithOne();
         }
+
     }
+
 }

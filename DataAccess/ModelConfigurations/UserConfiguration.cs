@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.ModelConfigurations
 {
+
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {
+
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
@@ -18,5 +20,7 @@ namespace DataAccess.ModelConfigurations
                 .IsRequired()
                 .HasMaxLength(255);
         }
+
     }
+
 }

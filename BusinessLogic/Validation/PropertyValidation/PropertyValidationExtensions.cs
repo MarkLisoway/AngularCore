@@ -1,12 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace BusinessLogic.Validation.PropertyValidation
 {
+
     internal static class PropertyValidationExtensions
     {
-        internal static PropertyValidations<T> BeginValidation<T>(this T property,
+
+        internal static PropertyValidations<T> BeginValidation<T>(
+            this T property,
             string prefix,
             string alias,
             ICollection<IPropertyValidationError> errors)
@@ -52,7 +54,8 @@ namespace BusinessLogic.Validation.PropertyValidation
         }
 
 
-        internal static PropertyValidations<T> CannotEqual<T>(this PropertyValidations<T> validator,
+        internal static PropertyValidations<T> CannotEqual<T>(
+            this PropertyValidations<T> validator,
             T objectToCompare,
             string objectToCompareAlias = null)
         {
@@ -66,7 +69,8 @@ namespace BusinessLogic.Validation.PropertyValidation
         }
 
 
-        internal static PropertyValidations<T> MustEqual<T>(this PropertyValidations<T> validator,
+        internal static PropertyValidations<T> MustEqual<T>(
+            this PropertyValidations<T> validator,
             T objectToCompare,
             string objectToCompareAlias = null)
         {
@@ -96,7 +100,8 @@ namespace BusinessLogic.Validation.PropertyValidation
         //**************************************************
 
 
-        internal static PropertyValidations<int> MustBeGreaterThan(this PropertyValidations<int> validator,
+        internal static PropertyValidations<int> MustBeGreaterThan(
+            this PropertyValidations<int> validator,
             int threshold)
         {
             if (!(validator.Property > threshold))
@@ -115,7 +120,8 @@ namespace BusinessLogic.Validation.PropertyValidation
         }
 
 
-        internal static PropertyValidations<int> MustBeGreaterThanOrEqualTo(this PropertyValidations<int> validator,
+        internal static PropertyValidations<int> MustBeGreaterThanOrEqualTo(
+            this PropertyValidations<int> validator,
             int threshold)
         {
             if (validator.Property < threshold)
@@ -125,7 +131,8 @@ namespace BusinessLogic.Validation.PropertyValidation
         }
 
 
-        internal static PropertyValidations<int> MustBeLessThanOrEqualTo(this PropertyValidations<int> validator,
+        internal static PropertyValidations<int> MustBeLessThanOrEqualTo(
+            this PropertyValidations<int> validator,
             int threshold)
         {
             if (validator.Property > threshold)
@@ -159,7 +166,7 @@ namespace BusinessLogic.Validation.PropertyValidation
         //**************************************************
         //* ICollection<T> validations
         //**************************************************
-        
+
 
         internal static PropertyValidations<ICollection<TModel>> ValidateEnumerable<TModel>(
             this PropertyValidations<ICollection<TModel>> validations,
@@ -169,14 +176,17 @@ namespace BusinessLogic.Validation.PropertyValidation
             {
                 throw new NullReferenceException("Collection cannot be null to validate.");
             }
-            
+
             foreach (var model in validations.Property)
             {
-                var enumerablePropertyValidation = new EnumerablePropertyValidation<TModel>(model, validations.Identifier);
+                var enumerablePropertyValidation =
+                    new EnumerablePropertyValidation<TModel>(model, validations.Identifier);
                 action.Invoke(enumerablePropertyValidation);
             }
 
             return validations;
         }
+
     }
+
 }

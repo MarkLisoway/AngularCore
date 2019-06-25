@@ -4,20 +4,23 @@ using BusinessLogic.Validation.ModelValidation.Validators;
 
 namespace BusinessLogic.Validation.ModelValidation
 {
+
     internal static class ModelValidationMappings
     {
+
         private static readonly ValidationDictionary Mappings = new ValidationMappingsRegistry()
-            .RegisterValidation(() => new UserModelValidator())
-            .RegisterValidation(() => new BlogPostValidator())
-            .RegisterValidation(() => new BlogValidator())
-            .CompleteRegistration();
+                                                                .RegisterValidation(() => new UserModelValidator())
+                                                                .RegisterValidation(() => new BlogPostValidator())
+                                                                .RegisterValidation(() => new BlogValidator())
+                                                                .CompleteRegistration();
 
         internal static IModelValidator<TModel> GetValidationMapping<TModel>()
         {
             var mapping = Mappings.GetMapping<TModel>();
+
             if (mapping == null)
             {
-                throw new KeyNotFoundException("Validation mapping not found. Are you sure it has been registered?");   
+                throw new KeyNotFoundException("Validation mapping not found. Are you sure it has been registered?");
             }
 
             if (!(mapping is Func<IModelValidator<TModel>>))
@@ -28,13 +31,17 @@ namespace BusinessLogic.Validation.ModelValidation
             }
 
             var factory = mapping as Func<IModelValidator<TModel>>;
+
             return factory.Invoke();
         }
-        
+
+
 
         private sealed class ValidationMappingsRegistry
         {
+
             private readonly ValidationDictionary _validators = new ValidationDictionary();
+
             private bool _built;
 
             internal ValidationMappingsRegistry RegisterValidation<TModel>(Func<IModelValidator<TModel>> factory)
@@ -51,12 +58,17 @@ namespace BusinessLogic.Validation.ModelValidation
             internal ValidationDictionary CompleteRegistration()
             {
                 _built = true;
+
                 return _validators;
             }
+
         }
+
+
 
         private sealed class ValidationDictionary
         {
+
             private readonly IDictionary<Type, object> _mappings = new Dictionary<Type, object>();
 
             internal void AddMapping<TModel>(Func<IModelValidator<TModel>> factory)
@@ -64,17 +76,20 @@ namespace BusinessLogic.Validation.ModelValidation
                 _mappings[typeof(TModel)] = factory;
             }
 
-            
+
             internal object GetMapping<TModel>()
             {
                 return _mappings[typeof(TModel)];
             }
-            
-            
+
+
             internal object GetMapping(Type type)
             {
                 return _mappings[type];
             }
+
         }
+
     }
+
 }

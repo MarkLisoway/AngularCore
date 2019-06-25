@@ -5,9 +5,12 @@ using BusinessLogic.Validation.PropertyValidation;
 
 namespace BusinessLogic.Validation.ModelValidation
 {
+
     public abstract class ModelValidator<TValidationModel> : IModelValidator<TValidationModel>
     {
+
         protected readonly ICollection<IPropertyValidationError> Errors;
+
         private bool _hasValidationBeenRun;
 
         protected ModelValidator()
@@ -56,12 +59,14 @@ namespace BusinessLogic.Validation.ModelValidation
         {
             if (!_hasValidationBeenRun)
                 throw new InvalidOperationException("Must validate before attempting to get any errors.");
+
             return Errors.ToImmutableList();
         }
 
         protected bool FinalizeValidation(bool isModelValid)
         {
             _hasValidationBeenRun = true;
+
             return isModelValid;
         }
 
@@ -69,5 +74,7 @@ namespace BusinessLogic.Validation.ModelValidation
         {
             return FinalizeValidation(Errors.Count <= 0);
         }
+
     }
+
 }

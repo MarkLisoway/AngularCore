@@ -3,8 +3,10 @@ using BusinessLogic.Validation.PropertyValidation;
 
 namespace BusinessLogic
 {
+
     public sealed class ExecutionResult<TResult>
     {
+
         internal ExecutionResult()
         {
             Errors = new List<IPropertyValidationError>();
@@ -36,5 +38,7 @@ namespace BusinessLogic
                 WasSuccess = false
             };
         }
+
     }
+
 }

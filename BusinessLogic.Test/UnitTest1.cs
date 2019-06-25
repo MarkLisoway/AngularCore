@@ -1,11 +1,12 @@
 using BusinessLogic.CoreEntity.TypedCoreEntity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUnit.Framework;
 
 namespace BusinessLogic.Test
 {
+
     public class Tests
     {
+
         [SetUp]
         public void Setup()
         {
@@ -20,6 +21,7 @@ namespace BusinessLogic.Test
 
             var val = one.CompareTo(two);
         }
-        
+
     }
+
 }

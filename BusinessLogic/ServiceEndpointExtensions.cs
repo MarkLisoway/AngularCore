@@ -5,9 +5,12 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BusinessLogic
 {
+
     internal static class ServiceEndpointExtensions
     {
-        internal static void ApplyModificationFlags<TModel>(this EntityEntry<TModel> entry,
+
+        internal static void ApplyModificationFlags<TModel>(
+            this EntityEntry<TModel> entry,
             params Expression<Func<TModel, object>>[] updatedProperties)
             where TModel : class
         {
@@ -24,6 +27,7 @@ namespace BusinessLogic
                 {
                     var original = entry.OriginalValues.GetValue<object>(property.Name);
                     var current = entry.CurrentValues.GetValue<object>(property.Name);
+
                     if (!Equals(original, current))
                     {
                         entry.Property(property.Name).IsModified = true;
@@ -31,5 +35,7 @@ namespace BusinessLogic
                 }
             }
         }
+
     }
+
 }

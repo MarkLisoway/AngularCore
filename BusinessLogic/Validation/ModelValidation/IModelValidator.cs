@@ -3,12 +3,14 @@ using BusinessLogic.Validation.PropertyValidation;
 
 namespace BusinessLogic.Validation.ModelValidation
 {
+
     /// <summary>
     ///     Validation interface for any object before the object's request gets
     ///     passed to the data layer.
     /// </summary>
     public interface IModelValidator
     {
+
         /// <summary>
         ///     Validates an object for a create operation.
         /// </summary>
@@ -47,7 +49,9 @@ namespace BusinessLogic.Validation.ModelValidation
         /// <returns>Any errors that were found.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown when called before <see cref="Validate" />.</exception>
         IReadOnlyList<IPropertyValidationError> GetErrors();
+
     }
+
 
 
     /// <summary>
@@ -56,6 +60,7 @@ namespace BusinessLogic.Validation.ModelValidation
     /// <typeparam name="TValidationModel"></typeparam>
     public interface IModelValidator<in TValidationModel> : IModelValidator
     {
+
         /// <summary>
         ///     Validates the given domain model for a create operation.
         /// </summary>
@@ -86,5 +91,7 @@ namespace BusinessLogic.Validation.ModelValidation
         /// <param name="model">Model to validate.</param>
         /// <returns><code>true</code> if valid, or <code>false</code> otherwise.</returns>
         bool Validate(TValidationModel model);
+
     }
+
 }

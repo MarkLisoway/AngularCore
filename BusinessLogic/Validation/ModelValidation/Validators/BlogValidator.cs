@@ -3,11 +3,13 @@ using DataAccess.Models;
 
 namespace BusinessLogic.Validation.ModelValidation.Validators
 {
+
     public class BlogValidator : ModelValidator<Blog>
     {
+
         // ReSharper disable once ConvertToConstant.Local
         private static readonly string ValidationPrefix = nameof(Blog);
-        
+
         public override bool ValidateCreate(Blog model)
         {
             throw new NotImplementedException();
@@ -27,5 +29,7 @@ namespace BusinessLogic.Validation.ModelValidation.Validators
         {
             throw new NotImplementedException();
         }
+
     }
+
 }
